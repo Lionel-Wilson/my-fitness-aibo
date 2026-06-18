@@ -1,0 +1,7 @@
+bin
+tmp
+*.test
+.env
+.git
+Dockerfile
+.dockerignore

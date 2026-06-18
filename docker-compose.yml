@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-fitness}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fitness}
+      POSTGRES_DB: ${POSTGRES_DB:-fitness}
+    ports:
+      # Host port for optional external access (e.g. psql). The backend connects
+      # to "db:5432" over the internal network regardless of this mapping.
+      - "${DB_HOST_PORT:-5435}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fitness} -d ${POSTGRES_DB:-fitness}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgres://fitness:fitness@db:5432/fitness?sslmode=disable}
+      JWT_SECRET: ${JWT_SECRET:-dev-change-me}
+      JWT_TTL_HOURS: ${JWT_TTL_HOURS:-720}
+      PORT: ${PORT:-8080}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080}
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
