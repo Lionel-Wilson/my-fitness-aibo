@@ -1,0 +1,22 @@
+---
+description: Go backend clean-architecture layout and layer rules
+globs: backend/**
+alwaysApply: false
+---
+
+# Backend architecture (Fitness Aibo)
+
+Read `backend/AGENTS.md` before changing the API.
+
+## Structure
+
+Per domain: `internal/api/{domain}/` (handler + dto + mappers) → `internal/{domain}/service.go` → `internal/{domain}/storage/repository.go`. Entities in `internal/entity/`. Shared helpers in `pkg/commonlibrary/`.
+
+## Rules
+
+- Handlers call services only; services call repositories. Never skip layers.
+- Handlers use DTOs; services use domain models; repositories use entity structs.
+- Handlers return `http.HandlerFunc`; decode with `request.DecodeAndValidate`; respond with `render.Json` / `render.HandleServiceErrorResponse`.
+- New endpoints: entity → storage → domain/mapper → service → api handler → `router.go` → `cmd/api/main.go`.
+- Preserve existing `/api/*` routes and JSON field names unless explicitly changing the API contract.
+- Use hand-written `pgx` SQL in repositories; no monolithic `store` or `handlers` packages.
