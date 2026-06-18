@@ -5,7 +5,7 @@ import { SettingsProvider } from "@/lib/settings";
 import { ServiceWorker } from "@/components/ServiceWorker";
 
 export const metadata: Metadata = {
-  title: "Fitness Aibo",
+  title: "My Fitness Aibo",
   description: "Track your training plans, cycles and progress.",
   manifest: "/manifest.webmanifest",
   icons: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Fitness Aibo",
+    title: "My Fitness Aibo",
   },
 };
 

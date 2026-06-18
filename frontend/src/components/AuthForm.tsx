@@ -29,7 +29,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
     <div className="flex-1 flex flex-col justify-center px-6 py-10">
       <div className="mb-8 text-center">
         <div className="text-4xl mb-2">🏋️</div>
-        <h1 className="text-2xl font-bold">Fitness Aibo</h1>
+        <h1 className="text-2xl font-bold">My Fitness Aibo</h1>
         <p className="text-muted text-sm mt-1">
           {mode === "login" ? "Welcome back" : "Create your account"}
         </p>

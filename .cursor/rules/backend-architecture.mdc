@@ -4,7 +4,7 @@ globs: backend/**
 alwaysApply: false
 ---
 
-# Backend architecture (Fitness Aibo)
+# Backend architecture (My Fitness Aibo)
 
 Read `backend/AGENTS.md` before changing the API.
 

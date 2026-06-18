@@ -1,4 +1,4 @@
-# AI Agent Guidelines — Fitness Aibo Backend
+# AI Agent Guidelines — My Fitness Aibo Backend
 
 Guidelines for AI agents (Cursor, Claude, etc.) working on this Go API. Follow this architecture for every change.
 
